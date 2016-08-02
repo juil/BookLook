@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     tools:background="#EEE">
     <ImageView
         android:id="@+id/thumbnail_view"
         android:layout_width="@dimen/thumbnail_image_size"
         android:layout_height="@dimen/thumbnail_image_size"
         tools:src="@drawable/thumbnail"/>
-    <TextView
-        android:id="@+id/title_view"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/thumbnail_view"
-        tools:text="Title"/>
-    <TextView
-        android:id="@+id/author_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title_view"
-        android:layout_alignStart="@id/title_view"
-        tools:text="Author"/>
+        android:padding="@dimen/book_item_padding"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/title_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/thumbnail_view"
+            tools:text="Title"/>
+        <TextView
+            android:id="@+id/author_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_view"
+            android:layout_alignStart="@id/title_view"
+            tools:text="Author"/>
+        <TextView
+            android:id="@+id/description_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/author_view"
+            android:layout_alignStart="@id/title_view"
+            tools:text="Here's a short description of this book."/>
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
