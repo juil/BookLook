@@ -1,6 +1,7 @@
 package com.juilyoon.booklook;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.renderscript.ScriptGroup;
 import android.test.suitebuilder.TestMethod;
 import android.view.LayoutInflater;
@@ -42,7 +43,17 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         authorView.setText(currentBook.getAuthors().toString());
         TextView descriptionView = (TextView) listItemView.findViewById(R.id.description_view);
         descriptionView.setText(currentBook.getDescription());
+        // TODO: Populate thumbnail from url
+        ImageView thumbnailView = (ImageView) listItemView.findViewById(R.id.thumbnail_view);
+        thumbnailView.setImageResource(R.drawable.thumbnail);
 
         return listItemView;
+    }
+
+    private class ThumbnailAsyncTask extends AsyncTask<URL, Void, Book> {
+        @Override
+        protected Book doInBackground(URL... url) {
+            return null;
+        }
     }
 }
