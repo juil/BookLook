@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -73,8 +74,8 @@ public class SearchActivity extends AppCompatActivity {
             outputView.setText("No results found.");
         }
         else {
-            // TODO: Iterate through list
-            outputView.setText(bookList.get(0).getTitle());
+            ListView searchResultsView = (ListView) findViewById(R.id.searchResults_view);
+            searchResultsView.setAdapter(new BookListAdapter(this, bookList));
         }
     }
 
@@ -152,7 +153,7 @@ public class SearchActivity extends AppCompatActivity {
                         // Add a space and next word of query
                         queryString.append("+" + query[i]);
                     }
-                    url = new URL(API_URL + "?q=" + queryString.toString() + "&maxResults=1");
+                    url = new URL(API_URL + "?q=" + queryString.toString() + "&maxResults=5");
                 }
             } catch (MalformedURLException e) {
                 Log.e(DEBUG_TAG, "Error generating URL.", e);
