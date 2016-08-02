@@ -40,7 +40,7 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         TextView titleView = (TextView) listItemView.findViewById(R.id.title_view);
         titleView.setText(currentBook.getTitle());
         TextView authorView = (TextView) listItemView.findViewById(R.id.author_view);
-        authorView.setText(currentBook.getAuthors().toString());
+        authorView.setText(generateAuthorString(currentBook.getAuthors()));
         TextView descriptionView = (TextView) listItemView.findViewById(R.id.description_view);
         descriptionView.setText(currentBook.getDescription());
         // TODO: Populate thumbnail from url
@@ -48,6 +48,19 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         thumbnailView.setImageResource(R.drawable.thumbnail);
 
         return listItemView;
+    }
+
+    private String generateAuthorString(String[] authors) {
+        String output = "";
+        if (authors.length == 0) {
+        }
+        else {
+            output += authors[0];
+            for (int i=1; i < authors.length; i++) {
+                output += " & " + authors[i];
+            }
+        }
+        return output;
     }
 
     private class ThumbnailAsyncTask extends AsyncTask<URL, Void, Book> {
