@@ -153,7 +153,7 @@ public class SearchActivity extends AppCompatActivity {
                         // Add a space and next word of query
                         queryString.append("+" + query[i]);
                     }
-                    url = new URL(API_URL + "?q=" + queryString.toString() + "&maxResults=5");
+                    url = new URL(API_URL + "?q=" + queryString.toString());
                 }
             } catch (MalformedURLException e) {
                 Log.e(DEBUG_TAG, "Error generating URL.", e);

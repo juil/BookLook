@@ -5,4 +5,7 @@
     <!-- Book list item dimensions -->
     <dimen name="book_item_padding">8dp</dimen>
     <dimen name="thumbnail_image_size">72dp</dimen>
+    <dimen name="title_size">18sp</dimen>
+    <dimen name="author_size">12sp</dimen>
+    <dimen name="description_size">14sp</dimen>
 </resources>

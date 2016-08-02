@@ -12,20 +12,21 @@
     android:id="@+id/root_view">
 
     <EditText
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:hint="Search Books"
-        android:id="@+id/search_bar"/>
+        />
     <Button
+        android:id="@+id/search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/search_button"
         android:text="Search" />
     <TextView
+        android:id="@+id/output_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/output_view"/>
+        android:layout_height="wrap_content" />
     <ListView
         android:id="@+id/searchResults_view"
         android:layout_width="match_parent"
