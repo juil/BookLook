@@ -1,12 +1,19 @@
 package com.juilyoon.booklook;
 
 import android.content.Context;
+import android.renderscript.ScriptGroup;
+import android.test.suitebuilder.TestMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -33,6 +40,8 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         titleView.setText(currentBook.getTitle());
         TextView authorView = (TextView) listItemView.findViewById(R.id.author_view);
         authorView.setText(currentBook.getAuthors().toString());
+        TextView descriptionView = (TextView) listItemView.findViewById(R.id.description_view);
+        descriptionView.setText(currentBook.getDescription());
 
         return listItemView;
     }
