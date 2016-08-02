@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
     private final String DEBUG_TAG = "SearchActivity";
@@ -63,6 +64,40 @@ public class SearchActivity extends AppCompatActivity {
         }
         else {
             outputView.setText("No network connection available.");
+        }
+    }
+
+    private ArrayList<Book> extractBooks(String jsonResponse) {
+        ArrayList<Book> books = new ArrayList<Book>();
+        try {
+            JSONObject root = new JSONObject(jsonResponse);
+            JSONArray bookList = root.optJSONArray("items");
+            // TODO: Handle 0 case in function call
+            // Variables that need to be extracted
+            String title;
+            ArrayList<String> authors = new ArrayList<>();
+            String description;
+            String thumbnailUrl;
+            String infoUrl;
+            // Iterate through bookList and add Book objects to books ArrayList
+            for (int i=0; i < bookList.length(); i++) {
+                JSONObject book = bookList.optJSONObject(i);
+                JSONObject volumeInfo = book.optJSONObject("volumeInfo");
+                title = volumeInfo.optString("title");
+                JSONArray authorList = volumeInfo.optJSONArray("authors");
+                for (int j=0; j < authorList.length(); j++) {
+                    authors.add(authorList.optString(j));
+                }
+                description = book.optJSONObject("searchInfo").optString("textSnippet");
+                thumbnailUrl = volumeInfo.optJSONObject("imageLinks").optString("smallThumbnail");
+                infoUrl = volumeInfo.optString("infoLink");
+                // Add Book object to books
+                books.add(new Book(title, authors.toArray(new String[0]), description, thumbnailUrl, infoUrl));
+            }
+        } catch (JSONException e) {
+            Log.e(DEBUG_TAG, "Problem parsing JSON results.", e);
+        } finally {
+            return books;
         }
     }
 
