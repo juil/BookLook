@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Book Look</string>
+    <string name="empty_list">Search for books in the Google Books database.</string>
 </resources>

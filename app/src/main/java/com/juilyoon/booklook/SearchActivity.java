@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,20 +32,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
     private final String DEBUG_TAG = "SearchActivity";
     private static final String API_URL = "https://www.googleapis.com/books/v1/volumes";
-    private EditText searchTextView;
-    private TextView outputView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        searchTextView = (EditText) findViewById(R.id.search_bar);
-        outputView = (TextView) findViewById(R.id.output_view);
+        ListView bookList = (ListView) findViewById(R.id.searchResults_view);
+        bookList.setEmptyView(findViewById(R.id.emptyList_view));
+
         Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,18 +61,19 @@ public class SearchActivity extends AppCompatActivity {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             // Search for query
+            EditText searchTextView = (EditText) findViewById(R.id.search_bar);
             String query = searchTextView.getText().toString();
             new BookSearchAsyncTask().execute(query.split(" "));
         }
         else {
-            outputView.setText("No network connection available.");
+            Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void updateResults(ArrayList<Book> bookList) {
         // Handle 0 case
         if (bookList.isEmpty()) {
-            outputView.setText("No results found.");
+            Toast.makeText(this, "No results found.", Toast.LENGTH_SHORT).show();
         }
         else {
             ListView searchResultsView = (ListView) findViewById(R.id.searchResults_view);
