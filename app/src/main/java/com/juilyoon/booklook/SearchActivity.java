@@ -67,12 +67,22 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    private void updateResults(ArrayList<Book> bookList) {
+        // Handle 0 case
+        if (bookList.isEmpty()) {
+            outputView.setText("No results found.");
+        }
+        else {
+            // TODO: Iterate through list
+            outputView.setText(bookList.get(0).getTitle());
+        }
+    }
+
     private ArrayList<Book> extractBooks(String jsonResponse) {
         ArrayList<Book> books = new ArrayList<Book>();
         try {
             JSONObject root = new JSONObject(jsonResponse);
             JSONArray bookList = root.optJSONArray("items");
-            // TODO: Handle 0 case in function call
             // Variables that need to be extracted
             String title;
             ArrayList<String> authors = new ArrayList<>();
@@ -121,11 +131,11 @@ public class SearchActivity extends AppCompatActivity {
          * Update the screen with search results
          */
         @Override
-        protected void onPostExecute(String books){ // TODO: Array of Books
+        protected void onPostExecute(String books){
             if (books == null) {
                 return;
             }
-            outputView.setText(books);
+            updateResults(extractBooks(books));
         }
 
         /**
