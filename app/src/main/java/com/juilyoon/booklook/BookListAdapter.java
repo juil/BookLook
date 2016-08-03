@@ -6,6 +6,7 @@ import android.media.Image;
 import android.os.AsyncTask;
 import android.renderscript.ScriptGroup;
 import android.test.suitebuilder.TestMethod;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,7 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         TextView authorView = (TextView) listItemView.findViewById(R.id.author_view);
         authorView.setText(generateAuthorString(currentBook.getAuthors()));
         TextView descriptionView = (TextView) listItemView.findViewById(R.id.description_view);
-        descriptionView.setText(currentBook.getDescription());
+        descriptionView.setText(Html.fromHtml(currentBook.getDescription()));
         // TODO: Populate thumbnail from url
         ImageView thumbnailView = (ImageView) listItemView.findViewById(R.id.thumbnail_view);
         ThumbnailAsyncTask task = new ThumbnailAsyncTask();
