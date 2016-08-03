@@ -32,11 +32,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
     private final String DEBUG_TAG = "SearchActivity";
     private static final String API_URL = "https://www.googleapis.com/books/v1/volumes";
+    // Full list of parsed Books
+    private ArrayList<Book> list = new ArrayList<Book>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,11 @@ public class SearchActivity extends AppCompatActivity {
         ListView bookList = (ListView) findViewById(R.id.searchResults_view);
         bookList.setEmptyView(findViewById(R.id.emptyList_view));
 
+        if (savedInstanceState != null && savedInstanceState.containsKey("key")) {
+            list = savedInstanceState.getParcelableArrayList("key");
+            updateResults(list);
+        }
+
         Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +61,12 @@ public class SearchActivity extends AppCompatActivity {
                 searchBooks();
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList("key", list);
+        super.onSaveInstanceState(outState);
     }
 
     private void searchBooks(){
@@ -138,7 +152,8 @@ public class SearchActivity extends AppCompatActivity {
             if (books == null) {
                 return;
             }
-            updateResults(extractBooks(books));
+            list = extractBooks(books);
+            updateResults(list);
         }
 
         /**
