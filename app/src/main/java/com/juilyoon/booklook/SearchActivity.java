@@ -1,8 +1,10 @@
 package com.juilyoon.booklook;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.RequiresPermission;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -84,7 +87,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    private void updateResults(ArrayList<Book> bookList) {
+    private void updateResults(final ArrayList<Book> bookList) {
         // Handle 0 case
         if (bookList.isEmpty()) {
             Toast.makeText(this, "No results found.", Toast.LENGTH_SHORT).show();
@@ -92,6 +95,16 @@ public class SearchActivity extends AppCompatActivity {
         else {
             ListView searchResultsView = (ListView) findViewById(R.id.searchResults_view);
             searchResultsView.setAdapter(new BookListAdapter(this, bookList));
+
+            // Set each item linked to info page
+            searchResultsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(bookList.get(position).getInfoUrl()));
+                    startActivity(intent);
+                }
+            });
         }
     }
 
@@ -141,6 +154,8 @@ public class SearchActivity extends AppCompatActivity {
             catch (IOException e) {
                 Log.e(DEBUG_TAG, "Problem making the HTTP request.", e);
             }
+            // TODO: Set item thumbnail image from url
+
             return jsonResponse;
         }
 
