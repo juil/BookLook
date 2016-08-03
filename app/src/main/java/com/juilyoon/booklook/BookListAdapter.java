@@ -1,9 +1,12 @@
 package com.juilyoon.booklook;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.renderscript.ScriptGroup;
 import android.test.suitebuilder.TestMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +48,13 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         descriptionView.setText(currentBook.getDescription());
         // TODO: Populate thumbnail from url
         ImageView thumbnailView = (ImageView) listItemView.findViewById(R.id.thumbnail_view);
-        thumbnailView.setImageResource(R.drawable.thumbnail);
+        ThumbnailAsyncTask task = new ThumbnailAsyncTask();
+        task.setThumbnailView(thumbnailView);
+        try {
+            task.execute(new URL(currentBook.getThumbnailUrl()));
+        } catch (MalformedURLException e) {
+            Log.e("BookListAdapter", "Bad thumbnail URL.", e);
+        }
 
         return listItemView;
     }
@@ -63,10 +72,27 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         return output;
     }
 
-    private class ThumbnailAsyncTask extends AsyncTask<URL, Void, Book> {
+    private class ThumbnailAsyncTask extends AsyncTask<URL, Void, Drawable> {
+        ImageView thumbnailView;
+        // Get imageView to update
+        public void setThumbnailView(ImageView thumbnailView) {
+            this.thumbnailView = thumbnailView;
+        }
         @Override
-        protected Book doInBackground(URL... url) {
+        protected Drawable doInBackground(URL... urls) {
+            try {
+                Log.v("BookListAdapter", "Get thumbnail image from " + urls[0]);
+                InputStream content = (InputStream) urls[0].getContent();
+                return Drawable.createFromStream(content, "src");
+            } catch (IOException e) {
+                Log.e("BookListAdapter", "Could not retrieve thumbnail image.", e);
+            }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Drawable thumbnailImage) {
+            thumbnailView.setImageDrawable(thumbnailImage);
         }
     }
 }
